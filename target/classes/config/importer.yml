@@ -1,0 +1,2 @@
+filename: events.json
+bootstrap: localhost:9092
