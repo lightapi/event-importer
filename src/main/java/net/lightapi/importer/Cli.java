@@ -5,6 +5,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.networknt.config.Config;
 import com.networknt.kafka.common.AvroSerializer;
+import com.networknt.kafka.common.KafkaProducerConfig;
 import org.apache.avro.Schema;
 import org.apache.avro.specific.SpecificRecord;
 import org.apache.avro.specific.SpecificRecordBase;
@@ -33,10 +34,6 @@ public class Cli {
             description = "The filename to be imported.")
     String filename;
 
-    @Parameter(names={"--server", "-s"}, required = false,
-            description = "The bootstrap server to be imported.")
-    String bootstrap;
-
     @Parameter(names={"--help", "-h"}, help = true)
     private boolean help;
 
@@ -60,19 +57,8 @@ public class Cli {
             jCommander.usage();
             return;
         }
-        ImporterConfig config = (ImporterConfig) Config.getInstance().getJsonObjectConfig(ImporterConfig.CONFIG_NAME, ImporterConfig.class);
-        if(filename == null)  filename = config.getFilename();
-        if(bootstrap == null) bootstrap = config.getBootstrap();
-
-        Properties props = new Properties();
-
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrap);
-        props.put(ProducerConfig.ACKS_CONFIG, "all");
-        props.put(ProducerConfig.RETRIES_CONFIG, 0);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArraySerializer");
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArraySerializer");
-
-        KafkaProducer<byte[], byte[]> producer = new KafkaProducer <> (props);
+        KafkaProducerConfig config = (KafkaProducerConfig) Config.getInstance().getJsonObjectConfig(KafkaProducerConfig.CONFIG_NAME, KafkaProducerConfig.class);
+        KafkaProducer<byte[], byte[]> producer = new KafkaProducer <> (config.getProperties());
         ImportCallback callback = new ImportCallback();
         AvroSerializer serializer = new AvroSerializer();
         JsonAvroConverter converter = new JsonAvroConverter();

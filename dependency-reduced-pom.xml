@@ -5,6 +5,29 @@
   <artifactId>event-importer</artifactId>
   <version>2.0.33-SNAPSHOT</version>
   <description>light-portal event importer.</description>
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/lightapi/event-importer/issues</url>
+  </issueManagement>
+  <developers>
+    <developer>
+      <id>stevehu</id>
+      <name>Steve Hu</name>
+      <email>stevehu@gmail.com</email>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>Apache License Version 2.0</name>
+      <url>http://repository.jboss.org/licenses/apache-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:git://github.com:lightapi/event-importer.git</connection>
+    <developerConnection>scm:git://github.com:lightapi/event-importer.git</developerConnection>
+    <url>https://github.com:lightapi/event-importer.git</url>
+  </scm>
   <build>
     <defaultGoal>install</defaultGoal>
     <directory>target</directory>
@@ -71,6 +94,32 @@
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+      <id>confluent</id>
+      <url>http://packages.confluent.io/maven/</url>
+    </repository>
+    <repository>
+      <snapshots />
+      <id>sonatype-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+    <repository>
+      <snapshots />
+      <id>s01-sonatype-snapshots</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
+  <distributionManagement>
+    <repository>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
   <properties>
     <version.jose4j>0.6.3</version.jose4j>
     <version.exec-maven>1.6.0</version.exec-maven>
