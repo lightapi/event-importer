@@ -15,6 +15,6 @@ if [ -z "$JAVA_HOME" ]; then
 fi
 
 # Note: please point JAVA_HOME to a JDK installation. JRE is not sufficient.
-"$JAVA_HOME/bin/java" -jar $JARFILE -f "$@"
+"$JAVA_HOME/bin/java" -jar -Dlight-4j-config-dir=$CURRENT_DIR/config/local $JARFILE -f "$@"
 
 exit 0
