@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.networknt.config.Config;
+import com.networknt.config.JsonMapper;
 import com.networknt.kafka.common.AvroSerializer;
 import com.networknt.kafka.common.KafkaProducerConfig;
 import org.apache.avro.Schema;
@@ -58,6 +59,7 @@ public class Cli {
             return;
         }
         KafkaProducerConfig config = (KafkaProducerConfig) Config.getInstance().getJsonObjectConfig(KafkaProducerConfig.CONFIG_NAME, KafkaProducerConfig.class);
+        System.out.println("props = " + JsonMapper.toJson(config.getProperties()));
         KafkaProducer<byte[], byte[]> producer = new KafkaProducer <> (config.getProperties());
         ImportCallback callback = new ImportCallback();
         AvroSerializer serializer = new AvroSerializer();
