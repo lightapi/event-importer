@@ -83,7 +83,7 @@ public class Cli {
                 Object schema = m.invoke(null, null);
                 SpecificRecord e = converter.convertToSpecificRecord(json.getBytes(StandardCharsets.UTF_8), eventClass, (Schema)schema);
                 byte[] bytes = serializer.serialize(e);
-                ProducerRecord <byte[], byte[]> data = new ProducerRecord<>("portal-event", key.getBytes(StandardCharsets.UTF_8), bytes);
+                ProducerRecord <byte[], byte[]> data = new ProducerRecord<>(config.getTopic(), key.getBytes(StandardCharsets.UTF_8), bytes);
                 long startTime = System.currentTimeMillis();
                 producer.send(data, callback);
                 long elapsedTime = System.currentTimeMillis() - startTime;
