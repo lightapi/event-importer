@@ -102,7 +102,7 @@
         <version.avroConverter>0.2.9</version.avroConverter>
         <version.caffeine>2.8.6</version.caffeine>
         <version.json-path>2.6.0</version.json-path>
-        <version.jcommander>1.72</version.jcommander>
+        <version.jcommander>1.82</version.jcommander>
 
         <versions.maven-version>2.4</versions.maven-version>
         <version.javadoc-packagelist-plugin>1.0.0</version.javadoc-packagelist-plugin>
