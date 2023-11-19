@@ -6,6 +6,8 @@
 **Merged pull requests:**
 
 
+
+
 ## [2.1.28](https://github.com/networknt/event-importer/tree/2.1.28) (2023-10-24)
 
 
