@@ -77,6 +77,7 @@ public class Cli {
                 int second = line.indexOf("\u001e", line.indexOf("\u001e") + 1);
                 String key = line.substring(0, first);
                 String clazz = line.substring(first + 1, second);
+                System.out.println("Importing record key = " + key + " clazz = " + clazz);
                 Class eventClass = Class.forName(clazz);
                 String json = line.substring(second + 1);
                 Method m = eventClass.getDeclaredMethod("getClassSchema");
@@ -87,7 +88,7 @@ public class Cli {
                 long startTime = System.currentTimeMillis();
                 producer.send(data, callback);
                 long elapsedTime = System.currentTimeMillis() - startTime;
-                System.out.println("Import record key: " + key + " with event type " + clazz);
+                System.out.println("Imported record key: " + key + " with event type " + clazz);
             }
         } catch (IOException e) {
             e.printStackTrace();
