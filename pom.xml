@@ -100,7 +100,7 @@
         <version.undertow>2.3.18.Final</version.undertow>
         <version.json-schema-validator>1.5.1</version.json-schema-validator>
         <version.avroConverter>0.2.9</version.avroConverter>
-        <version.caffeine>2.8.6</version.caffeine>
+        <version.caffeine>3.2.0</version.caffeine>
         <version.json-path>2.6.0</version.json-path>
         <version.jcommander>1.82</version.jcommander>
 
