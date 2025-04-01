@@ -62,8 +62,6 @@ public class Cli {
         System.out.println("props = " + JsonMapper.toJson(config.getProperties()));
         KafkaProducer<byte[], byte[]> producer = new KafkaProducer <> (config.getProperties());
         ImportCallback callback = new ImportCallback();
-        AvroSerializer serializer = new AvroSerializer();
-        JsonAvroConverter converter = new JsonAvroConverter();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             while(true) {
                 String line = null;
@@ -73,22 +71,14 @@ public class Cli {
                     e.printStackTrace();
                 }
                 if(line == null) break;
-                int first = line.indexOf("\u001e");
-                int second = line.indexOf("\u001e", line.indexOf("\u001e") + 1);
+                int first = line.indexOf(" ");
                 String key = line.substring(0, first);
-                String clazz = line.substring(first + 1, second);
-                System.out.println("Importing record key = " + key + " clazz = " + clazz);
-                Class eventClass = Class.forName(clazz);
-                String json = line.substring(second + 1);
-                Method m = eventClass.getDeclaredMethod("getClassSchema");
-                Object schema = m.invoke(null, null);
-                SpecificRecord e = converter.convertToSpecificRecord(json.getBytes(StandardCharsets.UTF_8), eventClass, (Schema)schema);
-                byte[] bytes = serializer.serialize(e);
+                String value = line.substring(first + 1);
+                System.out.println("Importing record key = " + key + " value = " + value);
+                byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
                 ProducerRecord <byte[], byte[]> data = new ProducerRecord<>(config.getTopic(), key.getBytes(StandardCharsets.UTF_8), bytes);
-                long startTime = System.currentTimeMillis();
                 producer.send(data, callback);
-                long elapsedTime = System.currentTimeMillis() - startTime;
-                System.out.println("Imported record key: " + key + " with event type " + clazz);
+                System.out.println("Imported record key: " + key + " with event " + value);
             }
         } catch (IOException e) {
             e.printStackTrace();
