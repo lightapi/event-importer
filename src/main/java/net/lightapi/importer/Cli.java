@@ -71,6 +71,7 @@ public class Cli {
                     e.printStackTrace();
                 }
                 if(line == null) break;
+                if(line.startsWith("#")) continue;  // skip comments.
                 int first = line.indexOf(" ");
                 String key = line.substring(0, first);
                 String value = line.substring(first + 1);
