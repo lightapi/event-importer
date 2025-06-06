@@ -22,6 +22,8 @@
     <version>2.2.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>light-portal event importer.</description>
+    <name>Light Portal Event Importer</name>
+    <url>https://github.com/lightapi/event-importer</url>
 
     <developers>
         <developer>
