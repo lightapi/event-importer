@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.3.0](https://github.com/networknt/event-importer/tree/2.3.0) (2025-06-25)
+
+
+**Merged pull requests:**
+
+
 ## [2.2.2](https://github.com/networknt/event-importer/tree/2.2.2) (2025-06-05)
 
 
