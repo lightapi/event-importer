@@ -6,7 +6,7 @@ import com.beust.jcommander.ParameterException;
 import com.networknt.config.Config;
 import com.networknt.config.JsonMapper;
 import com.networknt.kafka.common.AvroSerializer;
-import com.networknt.kafka.common.KafkaProducerConfig;
+import com.networknt.kafka.common.config.KafkaProducerConfig;
 import org.apache.avro.Schema;
 import org.apache.avro.specific.SpecificRecord;
 import org.apache.avro.specific.SpecificRecordBase;
@@ -58,9 +58,9 @@ public class Cli {
             jCommander.usage();
             return;
         }
-        KafkaProducerConfig config = (KafkaProducerConfig) Config.getInstance().getJsonObjectConfig(KafkaProducerConfig.CONFIG_NAME, KafkaProducerConfig.class);
+        KafkaProducerConfig config = KafkaProducerConfig.load();
         System.out.println("props = " + JsonMapper.toJson(config.getProperties()));
-        KafkaProducer<byte[], byte[]> producer = new KafkaProducer <> (config.getProperties());
+        KafkaProducer<byte[], byte[]> producer = new KafkaProducer <> (config.getProperties().getMergedProperties());
         ImportCallback callback = new ImportCallback();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             while(true) {
