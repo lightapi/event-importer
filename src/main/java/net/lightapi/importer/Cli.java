@@ -4,25 +4,26 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.networknt.config.Config;
-import com.networknt.config.JsonMapper;
-import com.networknt.kafka.common.AvroSerializer;
-import com.networknt.kafka.common.config.KafkaProducerConfig;
-import org.apache.avro.Schema;
-import org.apache.avro.specific.SpecificRecord;
-import org.apache.avro.specific.SpecificRecordBase;
-import org.apache.kafka.clients.producer.*;
-import tech.allegro.schema.json2avro.converter.JsonAvroConverter;
+import com.networknt.db.provider.DbProvider;
+import com.networknt.db.provider.SqlDbStartupHook;
+import com.networknt.monad.Result;
+import com.networknt.service.SingletonServiceFactory;
+import com.networknt.utility.Constants;
+import io.cloudevents.CloudEvent;
+import io.cloudevents.CloudEventData;
+import io.cloudevents.core.builder.CloudEventBuilder;
+import io.cloudevents.core.format.EventFormat;
+import io.cloudevents.core.provider.EventFormatProvider;
+import io.cloudevents.jackson.JsonFormat;
+import net.lightapi.portal.EventTypeUtil;
+import net.lightapi.portal.PortalConstants;
+import net.lightapi.portal.db.PortalDbProvider;
 
-import java.io.*;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Properties;
-import java.util.Random;
-import java.util.Set;
-import static java.io.File.separator;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * A Cli to export event from Kafka.
@@ -30,6 +31,8 @@ import static java.io.File.separator;
  * @author Steve Hu
  */
 public class Cli {
+    public static PortalDbProvider dbProvider;
+    public static SqlDbStartupHook sqlDbStartupHook;
 
     @Parameter(names={"--filename", "-f"}, required = false,
             description = "The filename to be imported.")
@@ -45,9 +48,12 @@ public class Cli {
                     .addObject(cli)
                     .build();
             jCommander.parse(argv);
+            sqlDbStartupHook = new SqlDbStartupHook();
+            sqlDbStartupHook.onStartup();
+            dbProvider = (PortalDbProvider) SingletonServiceFactory.getBean(DbProvider.class);
             cli.run(jCommander);
-        } catch (ParameterException e)
-        {
+
+        } catch (ParameterException e) {
             System.out.println("Command line parameter error: " + e.getLocalizedMessage());
             e.usage();
         }
@@ -58,10 +64,8 @@ public class Cli {
             jCommander.usage();
             return;
         }
-        KafkaProducerConfig config = KafkaProducerConfig.load();
-        System.out.println("props = " + JsonMapper.toJson(config.getProperties()));
-        KafkaProducer<byte[], byte[]> producer = new KafkaProducer <> (config.getProperties().getMergedProperties());
-        ImportCallback callback = new ImportCallback();
+        // Resolve the JSON event format
+        EventFormat format = EventFormatProvider.getInstance().resolveFormat(JsonFormat.CONTENT_TYPE);
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             while(true) {
                 String line = null;
@@ -76,29 +80,50 @@ public class Cli {
                 String key = line.substring(0, first);
                 String value = line.substring(first + 1);
                 System.out.println("Importing record key = " + key + " value = " + value);
-                byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
-                ProducerRecord <byte[], byte[]> data = new ProducerRecord<>(config.getTopic(), key.getBytes(StandardCharsets.UTF_8), bytes);
-                producer.send(data, callback);
+                // insert into database tables with JDBC
+                assert format != null;
+                CloudEvent cloudEvent = format.deserialize(value.getBytes());
+                if(cloudEvent.getExtension(PortalConstants.EVENT_AGGREGATE_VERSION) == null) {
+                    cloudEvent = CloudEventBuilder.v1(cloudEvent)
+                            .withExtension(PortalConstants.EVENT_AGGREGATE_VERSION, 1L)
+                            .build();
+                }
+                if(cloudEvent.getExtension(PortalConstants.AGGREGATE_TYPE) == null) {
+                    cloudEvent = CloudEventBuilder.v1(cloudEvent)
+                            .withExtension(PortalConstants.AGGREGATE_TYPE, EventTypeUtil.deriveAggregateTypeFromEventType(cloudEvent.getType()))
+                            .build();
+                }
+                byte[] dataBytes = Objects.requireNonNull(cloudEvent.getData()).toBytes();
+                Map<String, Object> dataMap = Config.getInstance().getMapper().readValue(dataBytes, Map.class);
+                if(cloudEvent.getSubject() == null) {
+                    cloudEvent = CloudEventBuilder.v1(cloudEvent)
+                            .withSubject(EventTypeUtil.getAggregateId(cloudEvent.getType(), dataMap))
+                            .build();
+                }
+                String user = (String) cloudEvent.getExtension(Constants.USER);
+                Number nonce = (Number) cloudEvent.getExtension(PortalConstants.NONCE);
+                System.out.println("Importing record key = " + key + " with user = " + user + " and original nonce = " + nonce);
+                Result<Long> nonceResult = dbProvider.queryNonceByUserId(user);
+                if(nonceResult.isFailure()) {
+                    System.out.println("Failed to query nonce for user: " + user + " error: " + nonceResult.getError());
+                    return;
+                }
+                long newNonce = nonceResult.getResult() + 1;
+                System.out.println("New nonce for user " + user + " is " + newNonce);
+                cloudEvent = CloudEventBuilder.v1(cloudEvent)
+                        .withExtension(PortalConstants.NONCE, newNonce)
+                        .build();
+                // insert into event store
+                Result<String> eventStoreResult = dbProvider.insertEventStore(new CloudEvent[]{cloudEvent});
+                if(eventStoreResult.isFailure()) {
+                    System.out.println("Failed to insert event store: " + eventStoreResult.getError());
+                    return;
+                }
                 System.out.println("Imported record key: " + key + " with event " + value);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        producer.flush();
-        producer.close();
         System.out.println("All Portal Events have been imported successfully from " + filename + ". Have fun!!!");
-    }
-
-    private static class ImportCallback implements Callback {
-        @Override
-        public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-            if (e != null) {
-                System.out.println("Error while importing message to topic :" + recordMetadata);
-                e.printStackTrace();
-            } else {
-                String message = String.format("Import message to topic:%s partition:%s  offset:%s", recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset());
-                System.out.println(message);
-            }
-        }
     }
 }

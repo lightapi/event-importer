@@ -113,6 +113,7 @@
         <version.caffeine>3.2.0</version.caffeine>
         <version.json-path>2.6.0</version.json-path>
         <version.jcommander>1.82</version.jcommander>
+        <version.cloudevents>4.0.1</version.cloudevents>
 
         <versions.maven-version>2.4</versions.maven-version>
         <version.javadoc-packagelist-plugin>1.0.0</version.javadoc-packagelist-plugin>
@@ -130,7 +131,7 @@
     <dependencies>
         <dependency>
             <groupId>net.lightapi</groupId>
-            <artifactId>portal-event</artifactId>
+            <artifactId>db-provider</artifactId>
             <version>${version.light-4j}</version>
         </dependency>
         <dependency>
@@ -142,21 +143,6 @@
             <groupId>net.lightapi</groupId>
             <artifactId>command-common</artifactId>
             <version>${version.light-4j}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.networknt</groupId>
-            <artifactId>kafka-common</artifactId>
-            <version>${version.light-4j}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.networknt</groupId>
-            <artifactId>kafka-producer</artifactId>
-            <version>${version.light-4j}</version>
-        </dependency>
-        <dependency>
-            <groupId>tech.allegro.schema.json2avro</groupId>
-            <artifactId>converter</artifactId>
-            <version>${version.avroConverter}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -177,6 +163,21 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${version.jackson}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cloudevents</groupId>
+            <artifactId>cloudevents-json-jackson</artifactId>
+            <version>${version.cloudevents}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>
