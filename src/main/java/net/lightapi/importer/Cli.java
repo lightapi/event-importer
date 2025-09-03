@@ -10,7 +10,6 @@ import com.networknt.monad.Result;
 import com.networknt.service.SingletonServiceFactory;
 import com.networknt.utility.Constants;
 import io.cloudevents.CloudEvent;
-import io.cloudevents.CloudEventData;
 import io.cloudevents.core.builder.CloudEventBuilder;
 import io.cloudevents.core.format.EventFormat;
 import io.cloudevents.core.provider.EventFormatProvider;
@@ -22,6 +21,8 @@ import net.lightapi.portal.db.PortalDbProvider;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -66,6 +67,7 @@ public class Cli {
         }
         // Resolve the JSON event format
         EventFormat format = EventFormatProvider.getInstance().resolveFormat(JsonFormat.CONTENT_TYPE);
+        List<CloudEvent> currentBatch = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             while(true) {
                 String line = null;
@@ -75,6 +77,7 @@ public class Cli {
                     e.printStackTrace();
                 }
                 if(line == null) break;
+                if(line.trim().isEmpty()) continue; // skip empty lines.
                 if(line.startsWith("#")) continue;  // skip comments.
                 int first = line.indexOf(" ");
                 String key = line.substring(0, first);
@@ -113,17 +116,28 @@ public class Cli {
                 cloudEvent = CloudEventBuilder.v1(cloudEvent)
                         .withExtension(PortalConstants.NONCE, newNonce)
                         .build();
-                // insert into event store
-                Result<String> eventStoreResult = dbProvider.insertEventStore(new CloudEvent[]{cloudEvent});
-                if(eventStoreResult.isFailure()) {
-                    System.out.println("Failed to insert event store: " + eventStoreResult.getError());
-                    return;
-                }
-                System.out.println("Imported record key: " + key + " with event " + value);
+                // Add to current batch.
+                currentBatch.add(cloudEvent);
+
             }
+            processBatch(currentBatch);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("All Portal Events have been imported successfully from " + filename + ". Have fun!!!");
+    }
+
+    /**
+     * Processes a batch of CloudEvents by inserting them into the database in a single transaction.
+     * @param batch The list of CloudEvents to insert.
+     */
+    private void processBatch(List<CloudEvent> batch) {
+        Result<String> eventStoreResult = dbProvider.insertEventStore(batch.toArray(new CloudEvent[0]));
+        if(eventStoreResult.isFailure()) {
+            System.out.println("Failed to insert event store: " + eventStoreResult.getError());
+        } else {
+            System.out.println("Imported the batch successfully.");
+        }
     }
 }
