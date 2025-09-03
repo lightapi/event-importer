@@ -79,13 +79,10 @@ public class Cli {
                 if(line == null) break;
                 if(line.trim().isEmpty()) continue; // skip empty lines.
                 if(line.startsWith("#")) continue;  // skip comments.
-                int first = line.indexOf(" ");
-                String key = line.substring(0, first);
-                String value = line.substring(first + 1);
-                System.out.println("Importing record key = " + key + " value = " + value);
+                System.out.println("Importing record value = " + line);
                 // insert into database tables with JDBC
                 assert format != null;
-                CloudEvent cloudEvent = format.deserialize(value.getBytes());
+                CloudEvent cloudEvent = format.deserialize(line.getBytes());
                 if(cloudEvent.getExtension(PortalConstants.EVENT_AGGREGATE_VERSION) == null) {
                     cloudEvent = CloudEventBuilder.v1(cloudEvent)
                             .withExtension(PortalConstants.EVENT_AGGREGATE_VERSION, 1L)
@@ -105,7 +102,7 @@ public class Cli {
                 }
                 String user = (String) cloudEvent.getExtension(Constants.USER);
                 Number nonce = (Number) cloudEvent.getExtension(PortalConstants.NONCE);
-                System.out.println("Importing record key = " + key + " with user = " + user + " and original nonce = " + nonce);
+                System.out.println("Importing record with user = " + user + " and original nonce = " + nonce);
                 Result<Long> nonceResult = dbProvider.queryNonceByUserId(user);
                 if(nonceResult.isFailure()) {
                     System.out.println("Failed to query nonce for user: " + user + " error: " + nonceResult.getError());
