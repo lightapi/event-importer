@@ -3,7 +3,9 @@ package net.lightapi.importer;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.networknt.config.Config;
+import com.networknt.config.JsonMapper;
 import com.networknt.db.provider.DbProvider;
 import com.networknt.db.provider.SqlDbStartupHook;
 import com.networknt.monad.Result;
@@ -21,10 +23,7 @@ import net.lightapi.portal.db.PortalDbProvider;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * A Cli to export event from Kafka.
@@ -69,14 +68,8 @@ public class Cli {
         EventFormat format = EventFormatProvider.getInstance().resolveFormat(JsonFormat.CONTENT_TYPE);
         List<CloudEvent> currentBatch = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            while(true) {
-                String line = null;
-                try {
-                    line = reader.readLine();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if(line == null) break;
+            String line = null;
+            while((line = reader.readLine()) != null) {
                 if(line.trim().isEmpty()) continue; // skip empty lines.
                 if(line.startsWith("#")) continue;  // skip comments.
                 System.out.println("Importing record value = " + line);
@@ -87,7 +80,17 @@ public class Cli {
                     cloudEvent = CloudEventBuilder.v1(cloudEvent)
                             .withExtension(PortalConstants.EVENT_AGGREGATE_VERSION, 1L)
                             .build();
+                    System.out.println("AggregateVersion is null, set  it to 1L");
+                } else {
+                    System.out.println("AggregateVersion type is " + cloudEvent.getExtension(PortalConstants.EVENT_AGGREGATE_VERSION).getClass());
+                    if(cloudEvent.getExtension(PortalConstants.EVENT_AGGREGATE_VERSION).getClass() == String.class) {
+                        Long aggregateVersion = Long.parseLong((String) cloudEvent.getExtension(PortalConstants.EVENT_AGGREGATE_VERSION));
+                        cloudEvent = CloudEventBuilder.v1(cloudEvent)
+                                .withExtension(PortalConstants.EVENT_AGGREGATE_VERSION, aggregateVersion)
+                                .build();
+                    }
                 }
+
                 if(cloudEvent.getExtension(PortalConstants.AGGREGATE_TYPE) == null) {
                     cloudEvent = CloudEventBuilder.v1(cloudEvent)
                             .withExtension(PortalConstants.AGGREGATE_TYPE, EventTypeUtil.deriveAggregateTypeFromEventType(cloudEvent.getType()))
@@ -101,7 +104,7 @@ public class Cli {
                             .build();
                 }
                 String user = (String) cloudEvent.getExtension(Constants.USER);
-                Number nonce = (Number) cloudEvent.getExtension(PortalConstants.NONCE);
+                Object nonce = cloudEvent.getExtension(PortalConstants.NONCE);
                 System.out.println("Importing record with user = " + user + " and original nonce = " + nonce);
                 Result<Long> nonceResult = dbProvider.queryNonceByUserId(user);
                 if(nonceResult.isFailure()) {
