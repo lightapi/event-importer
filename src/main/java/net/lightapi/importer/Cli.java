@@ -10,6 +10,7 @@ import com.networknt.db.provider.DbProvider;
 import com.networknt.db.provider.SqlDbStartupHook;
 import com.networknt.monad.Result;
 import com.networknt.service.SingletonServiceFactory;
+import com.networknt.status.Status;
 import com.networknt.utility.Constants;
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
@@ -106,12 +107,19 @@ public class Cli {
                 String user = (String) cloudEvent.getExtension(Constants.USER);
                 Object nonce = cloudEvent.getExtension(PortalConstants.NONCE);
                 System.out.println("Importing record with user = " + user + " and original nonce = " + nonce);
+                long newNonce = 1L;
                 Result<Long> nonceResult = dbProvider.queryNonceByUserId(user);
                 if(nonceResult.isFailure()) {
-                    System.out.println("Failed to query nonce for user: " + user + " error: " + nonceResult.getError());
-                    return;
+                    Status status = nonceResult.getError();
+                    if(status.getStatusCode() == 404) {
+                        System.out.println("Nonce is not found for user: " + user + ". Use 1L as this is the first time this user is used.");
+                    } else {
+                        System.out.println("Failed to query nonce for user: " + user + " error: " + nonceResult.getError());
+                        return;
+                    }
+                } else {
+                    newNonce = nonceResult.getResult() + 1;
                 }
-                long newNonce = nonceResult.getResult() + 1;
                 System.out.println("New nonce for user " + user + " is " + newNonce);
                 cloudEvent = CloudEventBuilder.v1(cloudEvent)
                         .withExtension(PortalConstants.NONCE, newNonce)
