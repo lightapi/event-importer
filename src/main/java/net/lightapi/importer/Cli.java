@@ -10,7 +10,6 @@ import com.networknt.db.provider.DbProvider;
 import com.networknt.db.provider.SqlDbStartupHook;
 import com.networknt.monad.Result;
 import com.networknt.service.SingletonServiceFactory;
-import com.networknt.status.Status;
 import com.networknt.utility.Constants;
 import io.cloudevents.CloudEvent;
 import io.cloudevents.core.builder.CloudEventBuilder;
@@ -24,8 +23,6 @@ import net.lightapi.portal.db.PortalDbProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -171,20 +168,8 @@ public class Cli {
                 String user = (String) cloudEvent.getExtension(Constants.USER);
                 if (user == null) throw new IllegalArgumentException("CloudEvent missing required 'user' extension for Nonce calculation.");
 
-                Result<Long> nonceResult = dbProvider.queryNonceByUserId(user);
-                long newNonce = 1L;
-                if(nonceResult.isFailure()) {
-                    Status status = nonceResult.getError();
-                    if(status.getStatusCode() == 404) {
-                        logger.info("Nonce is not found for user: {}. Using 1L as this is the first time this user is used.", user);
-                    } else {
-                        throw new RuntimeException("Failed to query nonce for user: " + user + " error: " + nonceResult.getError());
-                    }
-                } else {
-                    newNonce = nonceResult.getResult() + 1;
-                }
-
-                cloudEvent = CloudEventBuilder.v1(cloudEvent).withExtension(PortalConstants.NONCE, (int)newNonce).build();
+                long nonce = dbProvider.queryNonceByUserId(user);
+                cloudEvent = CloudEventBuilder.v1(cloudEvent).withExtension(PortalConstants.NONCE, (int)nonce).build();
 
                 // 8. Add to current batch.
                 finalBatch.add(cloudEvent);
