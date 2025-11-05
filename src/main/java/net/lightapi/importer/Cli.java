@@ -16,10 +16,10 @@ import io.cloudevents.core.builder.CloudEventBuilder;
 import io.cloudevents.core.format.EventFormat;
 import io.cloudevents.core.provider.EventFormatProvider;
 import io.cloudevents.jackson.JsonFormat;
-import net.lightapi.portal.EventMutator;
 import net.lightapi.portal.EventTypeUtil;
 import net.lightapi.portal.PortalConstants;
 import net.lightapi.portal.db.PortalDbProvider;
+import net.lightapi.portal.mutator.EventMutator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
