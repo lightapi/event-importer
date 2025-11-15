@@ -1,0 +1,219 @@
+[
+  {
+    "id": "019a8837-42ac-740e-b982-dc6bd5c21d20",
+    "data": {
+      "lob": "Tax",
+      "apiId": "0001",
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "region": "EN",
+      "apiDesc": "Petstore API",
+      "apiName": "Petstore",
+      "apiTags": "",
+      "platform": "",
+      "apiStatus": "implemented",
+      "capability": "",
+      "businessGroup": "Corp",
+      "deliveryOwner": "01964b05-5532-7c79-8cde-191dcbd421b8",
+      "operationOwner": "01964b05-5532-7c79-8cde-191dcbd421b8",
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2025-11-15T15:51:54.284276607Z",
+    "type": "ApiCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "2094",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "01964b05-552a-7c4b-9184-6857e7f3dc5f|0001",
+    "specversion": "1.0",
+    "aggregatetype": "Api",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  },
+  {
+    "id": "019a8839-6952-723a-8e7c-9143400df759",
+    "data": {
+      "spec": "openapi: 3.1.0\ninfo:\n  version: 1.0.0\n  title: Swagger Petstore\n  license:\n    name: MIT\nservers:\n  - url: 'http://petstore.swagger.io/v1'\npaths:\n  /pets:\n    get:\n      summary: List all pets\n      operationId: listPets\n      tags:\n        - pets\n      parameters:\n        - name: limit\n          in: query\n          description: How many items to return at one time (max 100)\n          required: false\n          schema:\n            type: integer\n            format: int32\n      security:\n        - petstore_auth:\n            - 'read:pets'\n      responses:\n        '200':\n          description: An paged array of pets\n          headers:\n            x-next:\n              description: A link to the next page of responses\n              schema:\n                type: string\n          content:\n            application/json:\n              schema:\n                type: array\n                items:\n                  $ref: '#/components/schemas/Pet'\n              example:\n                - id: 1\n                  name: catten\n                  tag: cat\n                - id: 2\n                  name: doggy\n                  tag: dog\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n    post:\n      summary: Create a pet\n      operationId: createPets\n      requestBody:\n        description: Pet to add to the store\n        required: true\n        content:\n          application/json:\n            schema:\n              $ref: '#/components/schemas/Pet'\n      tags:\n        - pets\n      security:\n        - petstore_auth:\n            - 'read:pets'\n            - 'write:pets'\n      responses:\n        '201':\n          description: Null response\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n  '/pets/{petId}':\n    get:\n      summary: Info for a specific pet\n      operationId: showPetById\n      tags:\n        - pets\n      parameters:\n        - name: petId\n          in: path\n          required: true\n          description: The id of the pet to retrieve\n          schema:\n            type: string\n      security:\n        - petstore_auth:\n            - 'read:pets'\n      responses:\n        '200':\n          description: Expected response to a valid request\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Pet'\n              example:\n                id: 1\n                name: Jessica Right\n                tag: pet\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n    put:\n      summary: Update a pet\n      operationId: updatePets\n      parameters:\n        - name: petId\n          in: path\n          required: true\n          description: The id of the pet to update\n          schema:\n            type: string\n      \n      requestBody:\n        description: Pet to update\n        required: true\n        content:\n          application/json:\n            schema:\n              $ref: '#/components/schemas/UpdatePet'\n      tags:\n        - pets\n      security:\n        - petstore_auth:\n            - 'read:pets'\n            - 'write:pets'\n      responses:\n        '200':\n          description: Successfully updated pets\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n\n    delete:\n      summary: Delete a specific pet\n      operationId: deletePetById\n      tags:\n        - pets\n      parameters:\n        - name: petId\n          in: path\n          required: true\n          description: The id of the pet to delete\n          schema:\n            type: string\n        - name: key\n          in: header\n          required: true\n          description: The key header\n          schema:\n            type: string\n      security:\n        - petstore_auth:\n            - 'write:pets'\n      responses:\n        '200':\n          description: Expected response to a valid request\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Pet'\n              examples:\n                response:\n                  value:\n                    id: 1\n                    name: Jessica Right\n                    tag: pet\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n\n\n  /accounts:\n    get:\n      summary: Get a list of accounts\n      operationId: getAccounts\n      tags:\n        - accounts\n      parameters:\n        - name: limit\n          in: query\n          description: How many items to return at one time (max 100)\n          required: false\n          schema:\n            type: integer\n            format: int32\n      security:\n        - petstore_auth:\n            - 'read:pets'\n      responses:\n        '200':\n          description: An paged array of accounts\n          content:\n            application/json:\n              schema:\n                type: array\n                items:\n                  $ref: '#/components/schemas/Account'\n              example:\n                - accountNo: 123\n                  ownerId: johndoe\n                  accountType: P\n                  firstName: John\n                  lastName: Doe\n                  status: O\n                - id: 2\n                  accountNo: 456\n                  ownerId: johndoe\n                  accountType: B\n                  firstName: John\n                  lastName: Doe\n                  status: C\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n    post:\n      summary: Create an account\n      operationId: createAccount\n      requestBody:\n        description: Account to add to the system\n        required: true\n        content:\n          application/json:\n            schema:\n              $ref: '#/components/schemas/Account'\n      tags:\n        - accounts\n      security:\n        - petstore_auth:\n            - 'read:pets'\n            - 'write:pets'\n      responses:\n        '201':\n          description: Null response\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n  '/accounts/{accountNo}':\n    get:\n      summary: get account with a specific accountNo\n      operationId: getAccountByNo\n      tags:\n        - accounts\n      parameters:\n        - name: accountNo\n          in: path\n          required: true\n          description: The accountNo of the account to retrieve\n          schema:\n            type: string\n      security:\n        - petstore_auth:\n            - 'read:pets'\n      responses:\n        '200':\n          description: Expected response to a valid request\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Account'\n              example:\n                accountNo: 123\n                ownerId: johndoe\n                accountType: P\n                firstName: John\n                lastName: Doe\n                status: O\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n    put:\n      summary: Update an account by accountNo\n      operationId: updateAccountByNo\n      parameters:\n        - name: accountNo\n          in: path\n          required: true\n          description: The account no of the account to update\n          schema:\n            type: string\n      \n      requestBody:\n        description: Account to update\n        required: true\n        content:\n          application/json:\n            schema:\n              $ref: '#/components/schemas/Account'\n      tags:\n        - accounts\n      security:\n        - petstore_auth:\n            - 'read:pets'\n            - 'write:pets'\n      responses:\n        '200':\n          description: Successfully updated accounts\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n\n    delete:\n      summary: Delete a specific account by accountNo\n      operationId: deleteAccountByNo\n      tags:\n        - accounts\n      parameters:\n        - name: accountNo\n          in: path\n          required: true\n          description: The no of the account to delete\n          schema:\n            type: string\n      security:\n        - petstore_auth:\n            - 'write:pets'\n      responses:\n        '200':\n          description: Expected response to a valid request\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Account'\n              examples:\n                response:\n                  value:\n                    accountNo: 123\n                    ownerId: johndoe\n                    accountType: P\n                    firstName: John\n                    lastName: Doe\n                    status: O\n        \n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n\n  /notifications:\n    get:\n      summary: Get Notifications\n      operationId: listNotifications\n      tags:\n        - notifications\n      security:\n        - petstore_auth:\n            - 'read:pets'\n      responses:\n        '200':\n          description: A standard notification response in JSON for response interceptor test\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n\n  /flowers:\n    post:\n      summary: The API accept XML and the consumer is using JSON\n      operationId: flowers\n      tags:\n        - flowers\n      security:\n        - petstore_auth:\n            - 'read:pets'\n      responses:\n        '200':\n          description: Return an flowers XML as the demo soap service\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n  /documents:\n    get:\n      summary: The API to get a document in a JSON with base64 content\n      operationId: documents\n      tags:\n        - documents\n      security:\n        - petstore_auth:\n            - 'read:pets'\n      responses:\n        '200':\n          description: Return a document with base64 content in JSON format\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n  /streams:\n    get:\n      summary: The API to get a stream of json response\n      operationId: streams\n      tags:\n        - streams\n      security:\n        - petstore_auth:\n            - 'read:pets'\n      responses:\n        '200':\n          description: Return a stream with json content in JSON format\n        default:\n          description: unexpected error\n          content:\n            application/json:\n              schema:\n                $ref: '#/components/schemas/Error'\n\ncomponents:\n  securitySchemes:\n    petstore_auth:\n      type: oauth2\n      description: This API uses OAuth 2 with the client credential grant flow.\n      flows:\n        clientCredentials:\n          tokenUrl: 'https://localhost:6882/token'\n          scopes:\n            'write:pets': modify pets in your account\n            'read:pets': read your pets\n  schemas:\n    Pet:\n      allOf:\n        - $ref: '#/components/schemas/NewPet'\n        - type: object\n          required:\n          - id\n          properties:\n            id:\n              type: integer\n              format: int64\n\n    NewPet:\n      type: object\n      required:\n        - name  \n      properties:\n        name:\n          type: string\n        tag:\n          type: string \n\n    UpdatePet:\n      type: object\n      properties:\n        petAge:\n          $ref: \"#/components/schemas/petAge\"\n        petToys:\n          $ref: \"#/components/schemas/petToys\"\n        ownerEmail:\n          $ref: \"#/components/schemas/ownerEmail\"\n        ownerSsn:\n          $ref: \"#/components/schemas/ownerSsn\"\n      additionalProperties: false    \n    petAge:\n      maximum: 20\n      minimum: 1\n      type: \"integer\"\n      description: \"current age of the pet\"\n      nullable: false\n    petToys:\n      type: \"array\"\n      description: \"Toys of the pet\"\n      items:\n        type: \"string\"\n    ownerEmail:\n      maxLength: 65\n      minLength: 2\n      pattern: \"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$\"\n      type: \"string\"\n      description: \"owner email\"\n    ownerSsn:\n      pattern: \"^\\\\d{3}-\\\\d{2}-\\\\d{4}$\"\n      type: \"string\"\n      description: \"owner SSN\"\n\n    Account:\n      type: object\n      required:\n        - accountNo\n        - ownerId\n        - accountType\n        - status  \n      properties:\n        accountNo:\n          type: string\n        ownerId:\n          type: string \n        accountType:\n          type: string \n        firstName:\n          type: string \n        lastName:\n          type: string \n        status:\n          type: string \n\n    Error:\n      type: object\n      required:\n        - code\n        - message\n      properties:\n        code:\n          type: integer\n          format: int32\n        message:\n          type: string\n",
+      "apiId": "0001",
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "apiType": "openapi",
+      "endpoints": [
+        {
+          "scopes": [
+            "read:pets"
+          ],
+          "endpoint": "/v1/pets@get",
+          "endpointId": "019a8839-694b-7a97-bf22-20e1b242d8e4",
+          "httpMethod": "get",
+          "endpointDesc": "List all pets",
+          "endpointName": "listPets",
+          "endpointPath": "/pets"
+        },
+        {
+          "scopes": [
+            "read:pets",
+            "write:pets"
+          ],
+          "endpoint": "/v1/pets@post",
+          "endpointId": "019a8839-694b-7b2d-bf23-1b8793795d27",
+          "httpMethod": "post",
+          "endpointDesc": "Create a pet",
+          "endpointName": "createPets",
+          "endpointPath": "/pets"
+        },
+        {
+          "scopes": [
+            "read:pets"
+          ],
+          "endpoint": "/v1/pets/{petId}@get",
+          "endpointId": "019a8839-694b-7b53-bf24-8bd900f9787c",
+          "httpMethod": "get",
+          "endpointDesc": "Info for a specific pet",
+          "endpointName": "showPetById",
+          "endpointPath": "/pets/{petId}"
+        },
+        {
+          "scopes": [
+            "read:pets",
+            "write:pets"
+          ],
+          "endpoint": "/v1/pets/{petId}@put",
+          "endpointId": "019a8839-694b-7b6e-bf25-8907b175a1fe",
+          "httpMethod": "put",
+          "endpointDesc": "Update a pet",
+          "endpointName": "updatePets",
+          "endpointPath": "/pets/{petId}"
+        },
+        {
+          "scopes": [
+            "write:pets"
+          ],
+          "endpoint": "/v1/pets/{petId}@delete",
+          "endpointId": "019a8839-694b-7b82-bf26-35e854738c44",
+          "httpMethod": "delete",
+          "endpointDesc": "Delete a specific pet",
+          "endpointName": "deletePetById",
+          "endpointPath": "/pets/{petId}"
+        },
+        {
+          "scopes": [
+            "read:pets"
+          ],
+          "endpoint": "/v1/accounts@get",
+          "endpointId": "019a8839-694b-7b98-bf27-a86d80e4bd14",
+          "httpMethod": "get",
+          "endpointDesc": "Get a list of accounts",
+          "endpointName": "getAccounts",
+          "endpointPath": "/accounts"
+        },
+        {
+          "scopes": [
+            "read:pets",
+            "write:pets"
+          ],
+          "endpoint": "/v1/accounts@post",
+          "endpointId": "019a8839-694b-7ba9-bf28-2f4699a7e149",
+          "httpMethod": "post",
+          "endpointDesc": "Create an account",
+          "endpointName": "createAccount",
+          "endpointPath": "/accounts"
+        },
+        {
+          "scopes": [
+            "read:pets"
+          ],
+          "endpoint": "/v1/accounts/{accountNo}@get",
+          "endpointId": "019a8839-694b-7bc0-bf29-fe0eadd2e6b8",
+          "httpMethod": "get",
+          "endpointDesc": "get account with a specific accountNo",
+          "endpointName": "getAccountByNo",
+          "endpointPath": "/accounts/{accountNo}"
+        },
+        {
+          "scopes": [
+            "read:pets",
+            "write:pets"
+          ],
+          "endpoint": "/v1/accounts/{accountNo}@put",
+          "endpointId": "019a8839-694b-7bd4-bf2a-ca0f30ff013d",
+          "httpMethod": "put",
+          "endpointDesc": "Update an account by accountNo",
+          "endpointName": "updateAccountByNo",
+          "endpointPath": "/accounts/{accountNo}"
+        },
+        {
+          "scopes": [
+            "write:pets"
+          ],
+          "endpoint": "/v1/accounts/{accountNo}@delete",
+          "endpointId": "019a8839-694b-7be4-bf2b-0c8fdf5d01f4",
+          "httpMethod": "delete",
+          "endpointDesc": "Delete a specific account by accountNo",
+          "endpointName": "deleteAccountByNo",
+          "endpointPath": "/accounts/{accountNo}"
+        },
+        {
+          "scopes": [
+            "read:pets"
+          ],
+          "endpoint": "/v1/notifications@get",
+          "endpointId": "019a8839-694b-7bf6-bf2c-5b2c844d5b7b",
+          "httpMethod": "get",
+          "endpointDesc": "Get Notifications",
+          "endpointName": "listNotifications",
+          "endpointPath": "/notifications"
+        },
+        {
+          "scopes": [
+            "read:pets"
+          ],
+          "endpoint": "/v1/flowers@post",
+          "endpointId": "019a8839-694b-7c0b-bf2d-4ec2b824f034",
+          "httpMethod": "post",
+          "endpointDesc": "The API accept XML and the consumer is using JSON",
+          "endpointName": "flowers",
+          "endpointPath": "/flowers"
+        },
+        {
+          "scopes": [
+            "read:pets"
+          ],
+          "endpoint": "/v1/documents@get",
+          "endpointId": "019a8839-694b-7c1c-bf2e-0b2f1b47add0",
+          "httpMethod": "get",
+          "endpointDesc": "The API to get a document in a JSON with base64 content",
+          "endpointName": "documents",
+          "endpointPath": "/documents"
+        },
+        {
+          "scopes": [
+            "read:pets"
+          ],
+          "endpoint": "/v1/streams@get",
+          "endpointId": "019a8839-694b-7c2e-bf2f-cf883bc55d4f",
+          "httpMethod": "get",
+          "endpointDesc": "The API to get a stream of json response",
+          "endpointName": "streams",
+          "endpointPath": "/streams"
+        }
+      ],
+      "serviceId": "com.networknt.petstore-1.0.0",
+      "apiVersion": "1.0.0",
+      "apiVersionId": "019a8839-691d-7e58-85c5-d17eaf428fe0",
+      "apiVersionDesc": "First release of petstore",
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2025-11-15T15:54:15.25017274Z",
+    "type": "ApiVersionCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "2097",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019a8839-691d-7e58-85c5-d17eaf428fe0",
+    "specversion": "1.0",
+    "aggregatetype": "ApiVersion",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  }
+]

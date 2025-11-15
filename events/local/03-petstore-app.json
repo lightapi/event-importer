@@ -1,0 +1,26 @@
+[
+  {
+    "id": "019a886f-d863-756b-b8e7-13e0d911c6a7",
+    "data": {
+      "appId": "APM000002",
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "appDesc": "Petstore Client App",
+      "appName": "Petstore Client App",
+      "deliveryOwner": "01964b05-5532-7c79-8cde-191dcbd421b8",
+      "operationOwner": "01964b05-5532-7c79-8cde-191dcbd421b8",
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2025-11-15T16:53:42.62736286Z",
+    "type": "AppCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "2124",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "01964b05-552a-7c4b-9184-6857e7f3dc5f|APM000002",
+    "specversion": "1.0",
+    "aggregatetype": "App",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  }
+]
