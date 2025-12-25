@@ -1766,5 +1766,96 @@
     "aggregatetype": "ConfigInstanceAppApi",
     "datacontenttype": "application/json",
     "aggregateversion": 1
-  }    
+  },
+  {
+    "id": "019aeba8-efa2-7bea-9a22-f965c2401e84",
+    "data": {
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "current": true,
+      "systemEnv": "VM Ubuntu 24.04",
+      "runtimeEnv": "OpenJDK 21",
+      "aggregateVersion": 0,
+      "productVersionId": "019a9e38-210f-7057-b27b-0318a34d26ec",
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2025-12-04T23:18:28.514773929Z",
+    "type": "ProductVersionEnvironmentCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "1966",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019a9e38-210f-7057-b27b-0318a34d26ec|VM Ubuntu 24.04|OpenJDK 21",
+    "specversion": "1.0",
+    "aggregatetype": "ProductVersionEnvironment",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  },
+  {
+    "id": "019aeea9-2f60-78fa-8400-65cc7553d5db",
+    "data": {
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "current": true,
+      "systemEnv": "VM Windows 2019",
+      "runtimeEnv": "OpenJDK 21",
+      "aggregateVersion": 0,
+      "productVersionId": "019a9e38-210f-7057-b27b-0318a34d26ec",
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2025-12-05T13:17:36.480621734Z",
+    "type": "ProductVersionEnvironmentCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "2027",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019a9e38-210f-7057-b27b-0318a34d26ec|VM Windows 2019|OpenJDK 21",
+    "specversion": "1.0",
+    "aggregatetype": "ProductVersionEnvironment",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  },
+  {
+    "id": "019aeeb1-2435-7ca9-ac59-be25d5593413",
+    "data": {
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "current": true,
+      "systemEnv": "VM Windows 2019",
+      "runtimeEnv": "OpenJDK 17",
+      "aggregateVersion": 0,
+      "productVersionId": "019a9e38-210f-7057-b27b-0318a34d26ec",
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2025-12-05T13:26:17.909857213Z",
+    "type": "ProductVersionEnvironmentCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "2036",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019a9e38-210f-7057-b27b-0318a34d26ec|VM Windows 2019|OpenJDK 17",
+    "specversion": "1.0",
+    "aggregatetype": "ProductVersionEnvironment",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  },
+  {
+    "id": "019aeec3-f826-7d86-a3f7-b6df6ded29ec",
+    "data": {
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "current": true,
+      "systemEnv": "VM Windows 2019",
+      "runtimeEnv": "OpenJDK 17",
+      "productVersionId": "019a9e38-210f-7057-b27b-0318a34d26ec",
+      "newAggregateVersion": 6
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2025-12-05T13:46:51.814869765Z",
+    "type": "ProductVersionEnvironmentCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "2048",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019a9e38-210f-7057-b27b-0318a34d26ec|VM Windows 2019|OpenJDK 17",
+    "specversion": "1.0",
+    "aggregatetype": "ProductVersionEnvironment",
+    "datacontenttype": "application/json",
+    "aggregateversion": "6"
+  }  
 ]
