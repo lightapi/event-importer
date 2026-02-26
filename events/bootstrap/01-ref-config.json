@@ -44844,5 +44844,122 @@
     "aggregatetype": "RefLocale",
     "datacontenttype": "application/json",
     "aggregateversion": 1
+  },
+  {
+    "id": "019c9b5c-5537-7b4b-a3e0-838c17145f52",
+    "data": {
+      "active": true,
+      "tableId": "019c9b5c-5523-7f89-a738-e26d63720564",
+      "editable": true,
+      "tableDesc": "Token Exchange Type",
+      "tableName": "token_ex_type",
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2026-02-26T19:10:45.559736494Z",
+    "type": "RefTableCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "3562",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019c9b5c-5523-7f89-a738-e26d63720564",
+    "specversion": "1.0",
+    "aggregatetype": "RefTable",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  },
+  {
+    "id": "019c9b5e-2f9b-7a69-8828-28b9117aa927",
+    "data": {
+      "active": true,
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "tableId": "019c9b5c-5523-7f89-a738-e26d63720564",
+      "valueId": "019c9b5e-2f96-751a-9114-b774d0d15852",
+      "valueCode": "msal",
+      "valueDesc": "Microsoft Authentication Library",
+      "displayOrder": 1,
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2026-02-26T19:12:47.003677584Z",
+    "type": "RefValueCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "3563",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019c9b5e-2f96-751a-9114-b774d0d15852",
+    "specversion": "1.0",
+    "aggregatetype": "RefValue",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  },
+  {
+    "id": "019c9b5e-a0ce-7b75-a3e7-28e692d603ee",
+    "data": {
+      "active": true,
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "tableId": "019c9b5c-5523-7f89-a738-e26d63720564",
+      "valueId": "019c9b5e-a0ca-7be2-8b7d-d7195bc92ad9",
+      "valueCode": "ccac",
+      "valueDesc": "Client Credentials to Authorization Code",
+      "displayOrder": 2,
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2026-02-26T19:13:15.982729811Z",
+    "type": "RefValueCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "3564",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019c9b5e-a0ca-7be2-8b7d-d7195bc92ad9",
+    "specversion": "1.0",
+    "aggregatetype": "RefValue",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  },
+  {
+    "id": "019c9b5f-63f2-7e90-b7ae-ec2a7da69db5",
+    "data": {
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "valueId": "019c9b5e-2f96-751a-9114-b774d0d15852",
+      "language": "en",
+      "valueLabel": "Microsoft Authentication Library",
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2026-02-26T19:14:05.938930392Z",
+    "type": "RefLocaleCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "3565",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019c9b5e-2f96-751a-9114-b774d0d15852|en",
+    "specversion": "1.0",
+    "aggregatetype": "RefLocale",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  },
+  {
+    "id": "019c9b5f-c089-763f-856b-73d123faf0e3",
+    "data": {
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "valueId": "019c9b5e-a0ca-7be2-8b7d-d7195bc92ad9",
+      "language": "en",
+      "valueLabel": "Client Credentials to Authorization Code",
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2026-02-26T19:14:29.64141508Z",
+    "type": "RefLocaleCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "3566",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019c9b5e-a0ca-7be2-8b7d-d7195bc92ad9|en",
+    "specversion": "1.0",
+    "aggregatetype": "RefLocale",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
   }  
 ]
