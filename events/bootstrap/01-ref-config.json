@@ -45102,5 +45102,99 @@
     "aggregatetype": "RefLocale",
     "datacontenttype": "application/json",
     "aggregateversion": 1
-  }  
+  },
+  {
+    "id": "019cb908-009e-76b5-b8d9-7081364a66e0",
+    "data": {
+      "active": true,
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "tableId": "01964b05-552b-7f18-97d8-6af946495757",
+      "valueId": "019cb908-0097-71e3-94a3-eb13473ac379",
+      "valueCode": "2.3.3",
+      "valueDesc": "2.3.3",
+      "displayOrder": 900,
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2026-03-04T13:27:15.358445891Z",
+    "type": "RefValueCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "4473",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019cb908-0097-71e3-94a3-eb13473ac379",
+    "specversion": "1.0",
+    "aggregatetype": "RefValue",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  },
+  {
+    "id": "019cb908-5dc9-7615-a335-1ed9efa4a308",
+    "data": {
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "valueId": "019cb908-0097-71e3-94a3-eb13473ac379",
+      "language": "en",
+      "valueLabel": "2.3.3",
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2026-03-04T13:27:39.209402264Z",
+    "type": "RefLocaleCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "4474",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019cb908-0097-71e3-94a3-eb13473ac379|en",
+    "specversion": "1.0",
+    "aggregatetype": "RefLocale",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  },
+  {
+    "id": "019cb908-d1f8-7d69-b5b5-64245f40a35d",
+    "data": {
+      "active": true,
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "tableId": "01964b05-552b-7f18-97d8-6af946495757",
+      "valueId": "019cb908-d1f4-77ed-a3fd-d5f094f293ae",
+      "valueCode": "2.3.4",
+      "valueDesc": "2.3.4",
+      "displayOrder": 1000,
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2026-03-04T13:28:08.952861875Z",
+    "type": "RefValueCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "4475",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019cb908-d1f4-77ed-a3fd-d5f094f293ae",
+    "specversion": "1.0",
+    "aggregatetype": "RefValue",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  },
+  {
+    "id": "019cb909-0c93-77e3-b572-36d2f751a1bc",
+    "data": {
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "valueId": "019cb908-d1f4-77ed-a3fd-d5f094f293ae",
+      "language": "en",
+      "valueLabel": "2.3.4",
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2026-03-04T13:28:23.955519718Z",
+    "type": "RefLocaleCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "4476",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019cb908-d1f4-77ed-a3fd-d5f094f293ae|en",
+    "specversion": "1.0",
+    "aggregatetype": "RefLocale",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  }    
 ]
