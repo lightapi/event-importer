@@ -1942,7 +1942,7 @@
       "propertyName": "auditOnError",
       "propertyType": "Config",
       "resourceType": "none",
-      "propertyValue": "false"
+      "propertyValue": "true"
     },
     "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
     "time": "2025-04-21T23:23:10.075666394-04:00",
@@ -6064,64 +6064,6 @@
     "nonce": "224",
     "source": "https://github.com/lightapi/light-portal",
     "subject": "01965b85-6187-7705-a031-83acd1e9cc32",
-    "specversion": "1.0",
-    "aggregatetype": "ConfigProperty",
-    "datacontenttype": "application/json",
-    "aggregateversion": "1"
-  },
-  {
-    "id": "01967249-97ba-7a8b-a10d-6a04701b521a",
-    "data": {
-      "configId": "01964b05-5533-7c76-8606-a0fb9e31182f",
-      "required": false,
-      "updateTs": "2025-04-20 09:48:09.118669",
-      "valueType": "boolean",
-      "configName": "handler",
-      "propertyId": "01965b85-6187-782c-a033-77f9f19fc0fc",
-      "updateUser": "postgres",
-      "displayOrder": 1,
-      "propertyDesc": "Configuration for the LightHttpHandler. The handler is the base class  for all middleware, server and health handlers set the Status Object in the AUDIT_INFO, for auditing purposes default, if not set:false",
-      "propertyName": "auditOnError",
-      "propertyType": "Config",
-      "resourceType": "none",
-      "propertyValue": "false"
-    },
-    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
-    "time": "2025-04-21T23:23:10.087523765-04:00",
-    "type": "ConfigPropertyCreatedEvent",
-    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
-    "nonce": "225",
-    "source": "https://github.com/lightapi/light-portal",
-    "subject": "01965b85-6187-782c-a033-77f9f19fc0fc",
-    "specversion": "1.0",
-    "aggregatetype": "ConfigProperty",
-    "datacontenttype": "application/json",
-    "aggregateversion": "1"
-  },
-  {
-    "id": "01967249-97ba-7b93-a10e-c2325ffd3b87",
-    "data": {
-      "configId": "01964b05-5533-7c76-8606-a0fb9e31182f",
-      "required": false,
-      "updateTs": "2025-04-20 09:48:09.120407",
-      "valueType": "boolean",
-      "configName": "handler",
-      "propertyId": "01965b85-6187-78be-a035-62eba59df11c",
-      "updateUser": "postgres",
-      "displayOrder": 2,
-      "propertyDesc": "set the StackTrace in the AUDIT_INFO, for auditing purposes default, if not set:false",
-      "propertyName": "auditStackTrace",
-      "propertyType": "Config",
-      "resourceType": "none",
-      "propertyValue": "false"
-    },
-    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
-    "time": "2025-04-21T23:23:10.087565885-04:00",
-    "type": "ConfigPropertyCreatedEvent",
-    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
-    "nonce": "226",
-    "source": "https://github.com/lightapi/light-portal",
-    "subject": "01965b85-6187-78be-a035-62eba59df11c",
     "specversion": "1.0",
     "aggregatetype": "ConfigProperty",
     "datacontenttype": "application/json",
@@ -45848,5 +45790,35 @@
     "aggregatetype": "ConfigProperty",
     "datacontenttype": "application/json",
     "aggregateversion": 1
-  }    
+  },
+  {
+    "id": "019cda12-2c36-7c18-b5fc-2dbd0c72b141",
+    "data": {
+      "hostId": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+      "configId": "01964b05-5533-707e-85f0-73ea92f9bd73",
+      "valueType": "boolean",
+      "propertyId": "019cda12-2c31-71a8-af2f-3287c2bd25aa",
+      "displayOrder": 12,
+      "propertyDesc": "Set the StackTrace in the AUDIT_INFO, for auditing purposes. \nDefault, if not set, is false\n",
+      "propertyName": "auditStackTrace",
+      "propertyType": "Config",
+      "resourceType": "none",
+      "propertyValue": "false",
+      "light4jVersion": "2.3.4",
+      "aggregateVersion": 0,
+      "newAggregateVersion": 1
+    },
+    "host": "01964b05-552a-7c4b-9184-6857e7f3dc5f",
+    "time": "2026-03-10T23:25:50.006783627Z",
+    "type": "ConfigPropertyCreatedEvent",
+    "user": "01964b05-5532-7c79-8cde-191dcbd421b8",
+    "nonce": "5849",
+    "source": "https://github.com/lightapi/light-portal",
+    "subject": "019cda12-2c31-71a8-af2f-3287c2bd25aa",
+    "specversion": "1.0",
+    "aggregatetype": "ConfigProperty",
+    "datacontenttype": "application/json",
+    "aggregateversion": 1
+  }  
 ]
+  
