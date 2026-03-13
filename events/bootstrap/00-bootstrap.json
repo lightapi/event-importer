@@ -170,6 +170,7 @@
       "clientProfile": "browser",
       "redirectUri": "https://localhost:3000/authorization",
       "clientScope": "portal.r portal.w ref.r ref.w",
+      "tokenExType": "msal",
       "aggregateVersion": 0,
       "authenticateClass": "com.networknt.oauth.auth.LightPortalAuth",
       "newAggregateVersion": 1,
